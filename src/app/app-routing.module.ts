@@ -5,9 +5,25 @@ import { LoggedInComponent } from './logged-in/logged-in.component';
 import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
-  { path: 'logged-in', component: LoggedInComponent },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'logged-in',
+    component: LoggedInComponent,
+  },
   { path: 'signup', component: SignupComponent },
-  { path: '', component: LoginComponent, pathMatch: 'full' },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
