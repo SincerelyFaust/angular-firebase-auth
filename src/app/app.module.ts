@@ -9,7 +9,12 @@ import { LoggedInComponent } from './logged-in/logged-in.component';
 import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, LoggedInComponent, SignupComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    LoggedInComponent,
+    SignupComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],

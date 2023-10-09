@@ -9,16 +9,27 @@ import { Router } from '@angular/router';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import firebaseClient from 'src/common/firebase';
 
+interface PasswordValidationError {
+  invalidPassword: boolean;
+}
+
+type PasswordValidatorFn = (
+  control: AbstractControl
+) => PasswordValidationError | null;
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
 })
 export class SignupComponent {
   signupForm: FormGroup;
-  hasSignupError: boolean = false;
-  signupSuccess: boolean = false;
+  hasSignupError = false;
+  signupSuccess = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -49,7 +60,7 @@ export class SignupComponent {
             this.router.navigate(['/']);
           }, 4000);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Signup error', error);
           this.hasSignupError = true;
         });
@@ -64,8 +75,8 @@ export class SignupComponent {
     return this.signupForm.get('email');
   }
 
-  passwordValidator(): Validators {
-    return (control: AbstractControl): { [key: string]: any } | null => {
+  passwordValidator(): PasswordValidatorFn {
+    return (control: AbstractControl): PasswordValidationError | null => {
       const password = control.value;
 
       if (!password) {

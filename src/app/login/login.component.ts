@@ -9,15 +9,26 @@ import { Router } from '@angular/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import firebaseClient from 'src/common/firebase';
 
+interface PasswordValidationError {
+  invalidPassword: boolean;
+}
+
+type PasswordValidatorFn = (
+  control: AbstractControl
+) => PasswordValidationError | null;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  hasLoginError: boolean = false;
+  hasLoginError = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -44,7 +55,7 @@ export class LoginComponent {
           this.router.navigate(['/logged-in']);
           console.log('Successfully logged in!');
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Login error', error);
           this.hasLoginError = true;
         });
@@ -59,8 +70,8 @@ export class LoginComponent {
     return this.loginForm.get('email');
   }
 
-  passwordValidator(): Validators {
-    return (control: AbstractControl): { [key: string]: any } | null => {
+  passwordValidator(): PasswordValidatorFn {
+    return (control: AbstractControl): PasswordValidationError | null => {
       const password = control.value;
 
       if (!password) {
