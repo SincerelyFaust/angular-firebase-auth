@@ -1,10 +1,11 @@
 <div class="w-screen min-h-screen flex justify-center items-center text-black">
   <div
-    [hidden]="isModalHidden"
+    *ngIf="isModalOpen"
     class="fixed inset-0 z-10 overflow-y-auto backdrop-blur-sm">
     <div class="fixed inset-0 w-full h-full bg-black opacity-50">></div>
     <div class="flex items-center min-h-screen px-4 py-8">
       <div
+        #modal
         class="relative w-full max-w-lg mx-auto bg-white rounded-md shadow-lg">
         <div class="flex items-center justify-between p-4 border-b">
           <h4 class="text-lg font-medium text-gray-800">Add new product</h4>
@@ -199,6 +200,7 @@
       </div>
       <div>
         <button
+          #toggleButton
           (click)="toggleModal()"
           class="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm">
           Add product

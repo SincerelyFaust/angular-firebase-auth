@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { ProductService } from '../shared/services/ProductService';
 import {
   AbstractControl,
@@ -30,18 +36,34 @@ type PriceValidatorFn = (
 })
 export class ProductsComponent implements OnInit {
   products: Products = [];
-  isModalHidden = true;
+  isModalOpen = false;
   productForm: FormGroup;
   hasFormError = false;
 
+  @ViewChild('modal')
+  modal!: ElementRef;
+  @ViewChild('toggleButton')
+  toggleButton!: ElementRef;
+
   constructor(
     private productService: ProductService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private renderer: Renderer2
   ) {
     this.productForm = this.fb.group({
       productName: ['', [Validators.required, Validators.maxLength(32)]],
       productPrice: ['', [Validators.required, this.priceValidator()]],
       productDesc: ['', [Validators.required, Validators.maxLength(160)]],
+    });
+
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (
+        e.target !== this.toggleButton.nativeElement &&
+        e.target !== this.modal.nativeElement &&
+        !this.modal.nativeElement.contains(e.target)
+      ) {
+        this.isModalOpen = false;
+      }
     });
   }
 
@@ -123,6 +145,6 @@ export class ProductsComponent implements OnInit {
 
   toggleModal() {
     this.productForm.reset();
-    this.isModalHidden = !this.isModalHidden;
+    this.isModalOpen = !this.isModalOpen;
   }
 }
