@@ -57,7 +57,7 @@ export class SignupComponent {
           this.signupSuccess = true;
           console.log('Successfully signed up!');
           setTimeout(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/login']);
           }, 4000);
         })
         .catch(error => {
