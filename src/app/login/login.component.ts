@@ -52,7 +52,7 @@ export class LoginComponent {
 
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-          this.router.navigate(['/logged-in']);
+          this.router.navigate(['/products']);
           console.log('Successfully logged in!');
         })
         .catch(error => {

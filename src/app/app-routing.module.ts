@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { LoggedInComponent } from './logged-in/logged-in.component';
+import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
@@ -11,8 +11,8 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'logged-in',
-    component: LoggedInComponent,
+    path: 'products',
+    component: ProductsComponent,
   },
   { path: 'signup', component: SignupComponent },
   {
