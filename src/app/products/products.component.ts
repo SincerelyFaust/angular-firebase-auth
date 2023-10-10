@@ -71,7 +71,7 @@ export class ProductsComponent implements OnInit {
         next: v => {
           this.products.push(productData);
           console.log('Product added successfully:', v);
-          this.openModal();
+          this.toggleModal();
         },
         error: e => {
           this.hasFormError = true;
@@ -121,7 +121,7 @@ export class ProductsComponent implements OnInit {
     };
   }
 
-  openModal() {
+  toggleModal() {
     this.productForm.reset();
     this.isModalHidden = !this.isModalHidden;
   }
