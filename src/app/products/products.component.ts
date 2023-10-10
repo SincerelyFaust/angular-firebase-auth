@@ -39,6 +39,7 @@ export class ProductsComponent implements OnInit {
   isModalOpen = false;
   productForm: FormGroup;
   hasFormError = false;
+  loading = true;
 
   @ViewChild('modal')
   modal!: ElementRef;
@@ -71,8 +72,10 @@ export class ProductsComponent implements OnInit {
     (await this.productService.fetchProducts()).subscribe({
       next: v => {
         this.products = v.sort((a, b) => a.id - b.id);
+        this.loading = false;
       },
       error: e => {
+        this.loading = false;
         console.error('Error fetching products:', e);
       },
     });
