@@ -1,1 +1,30 @@
+<nav class="w-full flex items-center justify-center pt-10 absolute">
+  <div
+    class="max-w-fit bg-stone-50 flex flex-row text-sm rounded-full font-medium text-gray-600">
+    <a
+      *ngIf="!isLoggedIn"
+      class="bg-stone-50 p-3 sm:p-4 rounded-full hover:bg-stone-200"
+      routerLink="/login"
+      >Login</a
+    >
+    <a
+      *ngIf="!isLoggedIn"
+      class="bg-stone-50 p-3 sm:p-4 rounded-full hover:bg-stone-200"
+      routerLink="/signup"
+      >Signup</a
+    >
+    <a
+      *ngIf="isLoggedIn"
+      class="bg-stone-50 p-3 sm:p-4 rounded-full hover:bg-stone-200"
+      routerLink="/products"
+      >Products</a
+    >
+    <button
+      *ngIf="isLoggedIn"
+      (click)="logOut()"
+      class="bg-stone-50 p-3 sm:p-4 rounded-full hover:bg-stone-200">
+      Sign out
+    </button>
+  </div>
+</nav>
 <router-outlet></router-outlet>

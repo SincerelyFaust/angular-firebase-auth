@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthService } from './shared/services/AuthService';
+import { AuthGuard } from './shared/services/AuthGuard';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,7 @@ import { SignupComponent } from './signup/signup.component';
     SignupComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
-  providers: [],
+  providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
