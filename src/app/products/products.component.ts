@@ -20,14 +20,14 @@ export class ProductsComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   async ngOnInit(): Promise<void> {
-    (await this.productService.fetchProducts()).subscribe(
-      (products: Products) => {
-        this.products = products.sort((a, b) => a.id - b.id);
+    (await this.productService.fetchProducts()).subscribe({
+      next: v => {
+        this.products = v.sort((a, b) => a.id - b.id);
       },
-      (error: string) => {
-        console.error('Error fetching products:', error);
-      }
-    );
+      error: e => {
+        console.error('Error fetching products:', e);
+      },
+    });
   }
 
   onAddProduct() {
@@ -38,19 +38,19 @@ export class ProductsComponent implements OnInit {
         price: 3,
         description: 'Product 3 description',
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: v => {
           this.products.push({
             name: 'Product 3',
             id: 2,
             price: 3,
             description: 'Product 3 description',
           });
-          console.log('Product added successfully:', response);
+          console.log('Product added successfully:', v);
         },
-        error => {
-          console.error('Error adding product:', error);
-        }
-      );
+        error: e => {
+          console.error(e);
+        },
+      });
   }
 }
