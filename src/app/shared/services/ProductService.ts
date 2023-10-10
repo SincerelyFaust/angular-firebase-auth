@@ -5,7 +5,7 @@ import {
   QueryDocumentSnapshot,
   addDoc,
 } from 'firebase/firestore';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from, of, throwError } from 'rxjs';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import firebaseClient from 'src/common/firebase';
 import transformFirestoreResponse from 'src/common/firestore-response';
@@ -41,15 +41,15 @@ export class ProductService {
   async fetchProducts(): Promise<Observable<Products>> {
     const db = getFirestore(firebaseClient);
     const productsRef = collection(db, 'product');
-    const productsSnap = await getDocs(productsRef);
 
-    if (productsSnap.empty) {
-      console.log('No such document');
-      return of([]);
+    try {
+      const productsSnap = await getDocs(productsRef);
+      const transformedData = transformFirestoreResponse(productsSnap.docs);
+      return of(transformedData);
+    } catch (error) {
+      console.error(error);
+      return throwError(() => new Error(error as string));
     }
-
-    const transformedData = transformFirestoreResponse(productsSnap.docs);
-    return of(transformedData);
   }
 
   addProduct(
@@ -57,7 +57,13 @@ export class ProductService {
   ): Observable<DocumentReference<DocumentData, DocumentData>> {
     const db = getFirestore(firebaseClient);
     const productsRef = collection(db, 'product');
-    const addProductPromise = addDoc(productsRef, product);
-    return from(addProductPromise);
+
+    try {
+      const addProductPromise = addDoc(productsRef, product);
+      return from(addProductPromise);
+    } catch (error) {
+      console.error(error);
+      return throwError(() => new Error(error as string));
+    }
   }
 }
