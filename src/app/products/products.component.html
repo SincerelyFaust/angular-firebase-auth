@@ -1,18 +1,211 @@
 <div class="w-screen min-h-screen flex justify-center items-center text-black">
+  <div
+    [hidden]="isModalHidden"
+    class="fixed inset-0 z-10 overflow-y-auto backdrop-blur-sm">
+    <div class="fixed inset-0 w-full h-full bg-black opacity-50">></div>
+    <div class="flex items-center min-h-screen px-4 py-8">
+      <div
+        class="relative w-full max-w-lg mx-auto bg-white rounded-md shadow-lg">
+        <div class="flex items-center justify-between p-4 border-b">
+          <h4 class="text-lg font-medium text-gray-800">Add new product</h4>
+          <button
+            (click)="openModal()"
+            class="p-2 text-gray-400 rounded-md hover:bg-gray-100">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 mx-auto"
+              viewBox="0 0 20 20"
+              fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+        <form
+          [formGroup]="productForm"
+          (submit)="onAddProduct()"
+          id="add-product-form"
+          class="p-4 mt-3 space-y-4">
+          <div>
+            <label htmlFor="productName" class="font-medium"
+              >Product name</label
+            >
+            <input
+              type="text"
+              required
+              maxlength="32"
+              id="productName"
+              formControlName="productName"
+              form="add-product-form"
+              class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+            <div
+              *ngIf="nameControl?.invalid && nameControl?.touched"
+              class="mt-2">
+              <div
+                *ngIf="nameControl?.errors?.['required']"
+                class="gap-1 items-center justify-start flex flex-row">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20"
+                  viewBox="0 0 24 24">
+                  <path
+                    fill="#d72828"
+                    d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z" />
+                </svg>
+                <p class="text-sm">Product name is required.</p>
+              </div>
+              <div
+                *ngIf="nameControl?.errors?.['maxlength']"
+                class="gap-1 items-center justify-start flex flex-row">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20"
+                  viewBox="0 0 24 24">
+                  <path
+                    fill="#d72828"
+                    d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z" />
+                </svg>
+                <p class="text-sm">
+                  Product name can't be longer than 32 chars..
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="productPrice" class="font-medium">
+              Product price
+            </label>
+            <input
+              type="number"
+              required
+              formControlName="productPrice"
+              form="add-product-form"
+              id="productPrice"
+              class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+            <div
+              *ngIf="priceControl?.invalid && priceControl?.touched"
+              class="mt-2">
+              <div
+                *ngIf="priceControl?.errors?.['required']"
+                class="gap-1 items-center justify-start flex flex-row">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20"
+                  viewBox="0 0 24 24">
+                  <path
+                    fill="#d72828"
+                    d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z" />
+                </svg>
+                <p class="text-sm">Product price is required.</p>
+              </div>
+              <div
+                *ngIf="priceControl?.errors?.['invalidPrice']"
+                class="gap-1 items-center justify-start flex flex-row">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20"
+                  viewBox="0 0 24 24">
+                  <path
+                    fill="#d72828"
+                    d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z" />
+                </svg>
+                <p class="text-sm">
+                  Product price can't be zero or less than zero.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="productDesc" class="font-medium">
+              Product description
+            </label>
+            <textarea
+              required
+              formControlName="productDesc"
+              form="add-product-form"
+              maxlength="160"
+              id="productDesc"
+              class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"></textarea>
+            <div
+              *ngIf="descriptionControl?.invalid && descriptionControl?.touched"
+              class="mt-2">
+              <div
+                *ngIf="descriptionControl?.errors?.['required']"
+                class="gap-1 items-center justify-start flex flex-row">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20"
+                  viewBox="0 0 24 24">
+                  <path
+                    fill="#d72828"
+                    d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z" />
+                </svg>
+                <p class="text-sm">Product description is required.</p>
+              </div>
+              <div
+                *ngIf="descriptionControl?.errors?.['maxlength']"
+                class="gap-1 items-center justify-start flex flex-row">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20"
+                  viewBox="0 0 24 24">
+                  <path
+                    fill="#d72828"
+                    d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z" />
+                </svg>
+                <p class="text-sm">
+                  Product description can't be longer than 160 chars.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="hasFormError"
+            class="flex flex-row gap-3 items-center justify-start">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20"
+              viewBox="0 0 24 24">
+              <path
+                fill="#d72828"
+                d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z" />
+            </svg>
+            <p class="text-sm font-medium">Incorrect input.</p>
+          </div>
+        </form>
+        <div class="flex items-center justify-end gap-3 p-4 mt-5 border-t">
+          <input
+            type="submit"
+            value="Add"
+            form="add-product-form"
+            class="px-6 py-2 text-white bg-indigo-600 hover:bg-indigo-500 cursor-pointer rounded-md outline-none ring-offset-2 ring-indigo-600 focus:ring-2" />
+          <input
+            type="reset"
+            value="Cancel"
+            form="add-product-form"
+            (click)="openModal()"
+            class="px-6 py-2 text-indigo-600 cursor-pointer hover:bg-indigo-200 rounded-md outline-none ring-offset-2 ring-indigo-600 focus:ring-2" />
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="max-w-5xl w-full px-4 md:px-8 flex flex-col py-32">
-    <div class="items-start flex-row justify-between flex flex-wrap">
+    <div class="items-start flex-row gap-3 justify-between flex flex-wrap">
       <div class="max-w-lg">
         <h3 class="text-gray-800 text-xl font-bold sm:text-2xl">Products</h3>
         <p class="text-gray-600 mt-2">A list of products.</p>
       </div>
-      <div class="mt-3 md:mt-0">
+      <div>
         <button
-          (click)="onAddProduct()"
+          (click)="openModal()"
           class="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm">
           Add product
         </button>
       </div>
     </div>
+    <!-- Would be neat to add pagination for this table -->
     <div class="mt-12 shadow-sm border rounded-lg overflow-x-auto max-w-5xl">
       <table class="w-full table-auto text-sm text-left">
         <thead class="bg-gray-50 text-gray-600 font-medium border-b">
