@@ -219,9 +219,7 @@
           </tr>
         </thead>
         <tbody *ngIf="products.length !== 0" class="text-gray-600 divide-y">
-          <tr
-            *ngFor="let product of returnProducts()"
-            class="cursor-pointer hover:bg-gray-50">
+          <tr *ngFor="let product of returnProducts()">
             <td class="px-6 py-4 whitespace-nowrap">{{ product.name }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ product.price }}</td>
             <td class="px-6 py-4 whitespace-nowrap max-w-xs truncate">
@@ -236,6 +234,11 @@
                 class="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
                 Delete
               </button>
+              <a
+                [routerLink]="['/products', product.id]"
+                class="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
+                View more
+              </a>
             </td>
           </tr>
         </tbody>
