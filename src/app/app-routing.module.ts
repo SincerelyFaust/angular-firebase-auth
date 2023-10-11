@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
 
-import { AuthGuard } from './shared/services/AuthGuard';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   {

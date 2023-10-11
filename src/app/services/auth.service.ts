@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Injectable, NgZone } from '@angular/core';
-import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+} from 'firebase/auth';
 import firebaseClient from 'src/common/firebase';
 
 import { Router } from '@angular/router';
@@ -27,6 +34,34 @@ export class AuthService {
         JSON.parse(localStorage.getItem('user')!);
       }
     });
+  }
+
+  async logIn(email: string, password: string): Promise<boolean> {
+    const auth = getAuth(firebaseClient);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      this.router.navigate(['/products']);
+      console.log('Successfully logged in!');
+      return true;
+    } catch (error) {
+      console.error('Login error', error);
+      return false;
+    }
+  }
+
+  async signIn(email: string, password: string): Promise<boolean> {
+    const auth = getAuth(firebaseClient);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Successfully signed up!');
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 4000);
+      return true;
+    } catch (error) {
+      console.error('Signup error', error);
+      return false;
+    }
   }
 
   get isLoggedIn(): boolean {

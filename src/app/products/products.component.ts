@@ -5,7 +5,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ProductService } from '../shared/services/ProductService';
+import { ProductService } from '../services/product.service';
 import {
   AbstractControl,
   FormBuilder,

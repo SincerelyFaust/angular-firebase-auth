@@ -5,9 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import firebaseClient from 'src/common/firebase';
+import { AuthService } from '../services/auth.service';
 
 interface PasswordValidationError {
   invalidPassword: boolean;
@@ -27,7 +25,7 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private auth: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -48,17 +46,9 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
-      const auth = getAuth(firebaseClient);
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          this.router.navigate(['/products']);
-          console.log('Successfully logged in!');
-        })
-        .catch(error => {
-          console.error('Login error', error);
-          this.hasLoginError = true;
-        });
+      this.auth.logIn(email, password).then(success => {
+        if (success === false) this.hasLoginError = true;
+      });
     }
   }
 

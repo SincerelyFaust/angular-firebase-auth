@@ -5,9 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import firebaseClient from 'src/common/firebase';
+import { AuthService } from '../services/auth.service';
 
 interface PasswordValidationError {
   invalidPassword: boolean;
@@ -28,7 +26,7 @@ export class SignupComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private auth: AuthService
   ) {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -49,21 +47,14 @@ export class SignupComponent {
     if (this.signupForm.valid) {
       const email = this.signupForm.get('email')?.value;
       const password = this.signupForm.get('password')?.value;
-      const auth = getAuth(firebaseClient);
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          this.hasSignupError = false;
+      this.auth.signIn(email, password).then(success => {
+        if (success) {
           this.signupSuccess = true;
-          console.log('Successfully signed up!');
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 4000);
-        })
-        .catch(error => {
-          console.error('Signup error', error);
+          this.hasSignupError = false;
+        } else {
           this.hasSignupError = true;
-        });
+        }
+      });
     }
   }
 
