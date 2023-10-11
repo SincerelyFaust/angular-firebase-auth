@@ -21,7 +21,7 @@ interface Product {
         </h2>
         <p>€{{ product.price }}</p>
         <h3
-          class="max-w-[40ch] max-h-[0ch] overflow-y-auto text-sm text-gray-500">
+          class="max-w-[40ch] max-h-[60ch] overflow-y-auto text-sm text-gray-500">
           {{ product.description }}
         </h3>
         <div class="w-full flex">
