@@ -220,7 +220,7 @@
         </thead>
         <tbody *ngIf="products.length !== 0" class="text-gray-600 divide-y">
           <tr
-            *ngFor="let product of products"
+            *ngFor="let product of returnProducts()"
             class="cursor-pointer hover:bg-gray-50">
             <td class="px-6 py-4 whitespace-nowrap">{{ product.name }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ product.price }}</td>

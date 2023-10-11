@@ -146,6 +146,10 @@ export class ProductsComponent implements OnInit {
     };
   }
 
+  returnProducts(): Products {
+    return this.products;
+  }
+
   toggleModal() {
     this.productForm.reset();
     this.isModalOpen = !this.isModalOpen;
